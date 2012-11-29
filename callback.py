@@ -1,4 +1,4 @@
-#!/usrbin/env python
+#!/usr/bin/env python
 
 class Callback:
     ''' Callback(function fun, tuple args)
@@ -10,4 +10,6 @@ class Callback:
         self.args = args
 
     def __call__(self):
+        ''' __call__()
+            call the deffered function
         return self.fun(*self.args)

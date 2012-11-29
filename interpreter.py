@@ -18,7 +18,7 @@ class Interpreter:
 
     def generate(self, program):
         ''' generate(string program) -> generator[callbacks]
-            spits out one parsed callback at a time for use in any scope
+            spits out one parsed callback at a time for use outside
         '''
         for char in program:
             yield self.grammar[char]
