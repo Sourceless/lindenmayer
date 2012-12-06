@@ -23,3 +23,8 @@ class Generator:
     def next(self):
         self._next_generation()
         return self.data
+
+    def nth_generation(self, n):
+        for _ in xrange(n):
+            self._next_generation()
+        return self.data

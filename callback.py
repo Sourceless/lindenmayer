@@ -12,4 +12,8 @@ class Callback:
     def __call__(self):
         ''' __call__()
             call the deffered function
-        return self.fun(*self.args)
+        '''
+        try:
+            return self.fun(*self.args)
+        except ValueError:
+            return self.fun(self.args)

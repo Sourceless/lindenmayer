@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from callback import Callback
+
 class Interpreter:
     ''' Interpreter(grammar={})
         Basic one-char-at-a-time interpreter for l-systems and similar.
@@ -15,13 +17,34 @@ class Interpreter:
     def __init__(self, grammar={}):
         self.grammar = grammar
         self.memory = {}
+        self.use_memory = False
+
+    def _use_memory(self):
+        ''' _use_memory()
+            pass interpreter as an argument to every callback in grammar
+        '''
+        for key, callback in self.grammar.iteritems():
+            self.grammar[key] = Callback(callback, self)
+
+    def load(self, key, value):
+        ''' load(string key, Object value)
+            load data into the interpreter's internal memory
+        '''
+        self.memory[key] = value
 
     def generate(self, program):
         ''' generate(string program) -> generator[callbacks]
             spits out one parsed callback at a time for use outside
         '''
+        if self.use_memory == True:
+            self._use_memory()
+
         for char in program:
-            yield self.grammar[char]
+            try:
+                yield self.grammar[char]
+            except KeyError, key:
+                print 'skipping undefined char', key
+                continue
 
     def execute(self, program):
         ''' execute(string program)
