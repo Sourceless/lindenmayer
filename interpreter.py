@@ -18,6 +18,14 @@ class Interpreter:
         self.grammar = grammar
         self.memory = {}
         self.use_memory = False
+        self.program_counter = 0
+        self.program = ''
+
+    def relative_jump(self, jumpamount):
+        self.program_counter += jumpamount - 1
+
+    def relative_peek(self, peekamount):
+        return self.program[self.program_counter + peekamount]
 
     def _use_memory(self):
         ''' _use_memory()
@@ -36,15 +44,17 @@ class Interpreter:
         ''' generate(string program) -> generator[callbacks]
             spits out one parsed callback at a time for use outside
         '''
+        self.program = program
+
         if self.use_memory == True:
             self._use_memory()
 
-        for char in program:
+        while self.program_counter < len(self.program):
             try:
-                yield self.grammar[char]
+                yield self.grammar[self.program[self.program_counter]]
             except KeyError, key:
                 print 'skipping undefined char', key
-                continue
+            self.program_counter += 1
 
     def execute(self, program):
         ''' execute(string program)
