@@ -21,6 +21,14 @@ class Interpreter:
         self.program_counter = 0
         self.program = ''
 
+    def clear(self):
+        ''' clear()
+            Reset program counter, program, and memory
+        '''
+        self.memory = {}
+        self.program_counter = 0
+        self.program = ''
+
     def relative_jump(self, jumpamount):
         self.program_counter += jumpamount - 1
 

@@ -21,10 +21,21 @@ class Generator:
         self.data = ''.join(gen)
 
     def next(self):
-        self._next_generation()
-        return self.data
+        ''' next()
+            Computes and returns the next generation
+        '''
+        while True:
+            self._next_generation()
+            yield self.data
 
     def nth_generation(self, n):
+        ''' nth_generation(n)
+            Returns the nth generation
+        '''
+        temp = self.data
+
         for _ in xrange(n):
             self._next_generation()
-        return self.data
+
+        temp, self.data = self.data, temp # Reset self.data
+        return temp
